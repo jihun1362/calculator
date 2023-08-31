@@ -27,23 +27,24 @@
 	<br>
 	<button class="btn-Size" onclick="hideInfowindows()">인포윈도우 닫기</button>
 	<br>
-	<a id="start-navigation" href="javascript:kakaoNavi()">
-	  <img src="https://developers.kakao.com/assets/img/about/buttons/navi/kakaonavi_btn_medium.png"
-	    alt="길 안내하기 버튼" />
+	<a id="start-navigation" href="javascript:kakaoNavi()"> <img
+		src="https://developers.kakao.com/assets/img/about/buttons/navi/kakaonavi_btn_medium.png"
+		alt="길 안내하기 버튼" />
 	</a>
 </body>
 <!-- body 밑에 있어야 맵이 작동! -->
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=076bc91809407fe07291974850261b9a&libraries=services"></script>
-	
+
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.3.0/kakao.min.js"
-  integrity="sha384-70k0rrouSYPWJt7q9rSTKpiTfX6USlMYjZUtr1Du+9o4cGvhPAWxngdtVZDdErlh" crossorigin="anonymous"></script>
+	integrity="sha384-70k0rrouSYPWJt7q9rSTKpiTfX6USlMYjZUtr1Du+9o4cGvhPAWxngdtVZDdErlh"
+	crossorigin="anonymous"></script>
 <script>
   Kakao.init('076bc91809407fe07291974850261b9a'); // 사용하려는 앱의 JavaScript 키 입력
 </script>
 
 <script>
-// 기사 정보
+// 정보
 const inform = {
 		driver1:[
 			{
@@ -188,7 +189,6 @@ function relayout() {
 	if(currentData !== null){
 		appendMarker(currentData);
 	}
-  
     map.relayout();
 } 
 
@@ -267,6 +267,8 @@ function centerMarker(driver, centerX, centerY) {
 
 // 내 위치 찍기 함수
 function myLocation(on) {
+	// 내위치 확인 변수
+	var myPoint = "myPoint";
 	
 	console.log('실행이 안되고 있다면 https 설정이 됬는지 확인하세요!');
 	console.log('로컬이 아닌 환경에서는 https 설정이 안된 브라우저에서는 Kakao geolocation api가 작동하지 않습니다!');
@@ -274,14 +276,13 @@ function myLocation(on) {
 	// 지도 재설정 범위 정보 초기화
 	//bounds = new kakao.maps.LatLngBounds(); 
 	// 맵에 찍힌 마커와 인포 윈도우 초기화
-	//markerReset();
+	markerReset(myPoint);
 	
 	// HTML5의 geolocation으로 사용할 수 있는지 확인
 	if (navigator.geolocation) {
 	    // GeoLocation을 이용해서 접속 위치를 얻기
 	    navigator.geolocation.getCurrentPosition(function(position) {
 	        
-	    	
 	    	// geolocation 위치 정보
 	        var lat = position.coords.latitude, // 위도
 	            lon = position.coords.longitude; // 경도
@@ -291,22 +292,11 @@ function myLocation(on) {
 	     	// 인포윈도우 메세지
 		    var message = '여기에 계신가요?!';
 		    console.log('내 위치 좌표:'+locPosition);
-	        // 내위치 확인 문구
-		    var myPoint = "myPoint";
 	        
 		 	// 마커와 인포 윈도우 생성 및 저장
 		    markerSave(locPosition, message, myPoint);
 	       	// 마커와 인포윈도우 찍기, 중심좌표로 화면 이동
-	       	//putOnLocation(locPosition);
-	       	
-	       	// 마커와 인포 윈도우 찍기
-			for (var i = 0; i < my_markers.length; i++) {
-				my_markers[i].setMap(map);
-			}
-	       	
-	       	if(on === 'on'){
-	       	 	map.setCenter(locPosition);
-	       	}
+	       	putOnLocation(locPosition, myPoint, on);	
 	      });
 	    
 	} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -315,35 +305,50 @@ function myLocation(on) {
 		// 인포윈도우 메세지
 	    var message = 'geolocation을 사용할수 없어요..';
 	    
+		alert(message);
+		
 	    // 마커와 인포 윈도우 생성 및 저장
 	    markerSave(locPosition, message);
        	// 마커와 인포윈도우 찍기, 중심좌표로 화면 이동
-       	//putOnLocation(locPosition);
-       	
-     	// 마커와 인포 윈도우 찍기
-		for (var i = 0; i < my_markers.length; i++) {
-			my_markers[i].setMap(map);
-		}
+       	putOnLocation(locPosition, myPoint, on);
 	}
 }
 
 // 맵에 찍힌 마커와 인포 윈도우 초기화
-function markerReset() {
-	// 맵에 찍힌 마커들이 있으면 삭제 없으면 통과
-	if(markers.length >= 1){
-		markers.forEach((currentElement, index, array) => {
-			currentElement.setMap(null);
-    	});
+function markerReset(myPoint) {
+	if(myPoint === 'myPoint'){
+		// 맵에 찍힌 마커들이 있으면 삭제 없으면 통과
+		if(my_markers.length >= 1){
+			my_markers.forEach((currentElement, index, array) => {
+				currentElement.setMap(null);
+	    	});
+		}
+		// 마커 배열을 빈 배열로 만들기
+		my_markers = [];
+		
+		// 맵에 찍힌 인포윈도우들이 있으면 삭제 없으면 통과
+		if(my_infowindows.length >= 1){
+			hideInfowindows();
+		}
+		// 인포윈도우 배열을 빈 배열로 만들기
+		my_infowindows = [];
+	} else {
+		// 맵에 찍힌 마커들이 있으면 삭제 없으면 통과
+		if(markers.length >= 1){
+			markers.forEach((currentElement, index, array) => {
+				currentElement.setMap(null);
+	    	});
+		}
+		// 마커 배열을 빈 배열로 만들기
+		markers = [];
+		
+		// 맵에 찍힌 인포윈도우들이 있으면 삭제 없으면 통과
+		if(infowindows.length >= 1){
+			hideInfowindows();
+		}
+		// 인포윈도우 배열을 빈 배열로 만들기
+		infowindows = [];
 	}
-	// 마커 배열을 빈 배열로 만들기
-	markers = [];
-	
-	// 맵에 찍힌 인포윈도우들이 있으면 삭제 없으면 통과
-	if(infowindows.length >= 1){
-		hideInfowindows();
-	}
-	// 인포윈도우 배열을 빈 배열로 만들기
-	infowindows = [];
 }
 
 // 머커와 인포 윈도우 저장
@@ -374,8 +379,6 @@ function markerSave(locPosition, message, myPoint) {
 	   	// 인포윈도우 저장
 	   	my_infowindows.push(infowindow);
 	   	
-	   	//my_infowindows[0].open(map, my_markers[0]);
-	   	
 	} else {
 		// 마커를 생성
 	   	var marker = new kakao.maps.Marker({
@@ -403,7 +406,7 @@ function markerSave(locPosition, message, myPoint) {
 	   	infowindows.push(infowindow);
 	}
 	
-	//마커에 클릭이벤트를 등록합니다
+	// 마커에 클릭이벤트를 등록합니다
 	kakao.maps.event.addListener(marker, 'click', function() {
 		// 모든 인포윈도우 닫기(인포윈도우 한개만 오픈되게하기 위해)
 		hideInfowindows(); 
@@ -419,18 +422,31 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 });
 
 // 마커와 인포 윈도우 찍기
-function putOnLocation(locPosition) {
-	// 마커와 인포 윈도우 찍기
-	for (var i = 0; i < markers.length; i++) {
-		markers[i].setMap(map);
-		//infowindows[i].open(map, markers[i]);
+function putOnLocation(locPosition, myPoint, on) {
+	// 내 위치 찍기인지 아닌지 구분
+	if(myPoint === 'myPoint'){
+	 	// 내 위치 마커와 인포 윈도우 찍기
+		for (var i = 0; i < my_markers.length; i++) {
+			my_markers[i].setMap(map);
+		}
+	   	
+	   	// 내 위치 버튼 클릭시 내 위치 마커로
+	   	if(on === 'on'){
+	   	 	map.setCenter(locPosition);
+	   	}
+	} else {
+		// 마커와 인포 윈도우 찍기
+		for (var i = 0; i < markers.length; i++) {
+			markers[i].setMap(map);
+			//infowindows[i].open(map, markers[i]);
+		}
+		
+		// 지도 중심좌표를 접속위치로 변경합니다
+	    map.setCenter(locPosition);
 	}
-	
-	// 지도 중심좌표를 접속위치로 변경합니다
-    map.setCenter(locPosition);
 }
  
-//마커 한 화면에 보이게 하기
+// 마커 한 화면에 보이게 하기
 function setBounds() {
 	if(bounds.ha !== Infinity){
 		// LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
@@ -462,7 +478,7 @@ function showInfowindows() {
 	}
 }
 
-//카카오내비 실행 테스트
+// 카카오내비 실행 테스트
 function kakaoNavi() {
 	Kakao.Navi.start({
 		  name: '현대백화점 판교점',
@@ -472,7 +488,7 @@ function kakaoNavi() {
 		});
 }
 
-//카카오내비 실행 테스트
+// 카카오내비 실행 테스트
 function markerNavi(coordinateX, coordinateY) {
 	
 	//console.log(coordinateX);
@@ -486,6 +502,7 @@ function markerNavi(coordinateX, coordinateY) {
 		});
 }
 
+// 내 위치 10초 마다 자동으로 찍기
 setInterval(() => myLocation(), 10000);
 
 </script>
