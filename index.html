@@ -624,7 +624,13 @@ kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 	listEvent.allBorderRemove();
 });
 
-
+// 맵 이동중 이벤트
+kakao.maps.event.addListener(map, 'bounds_changed', function() { 
+	// 맵 밖 마커는 자동으로 숨김 됨, 맵 이동 중 마커 표시           
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].marker.setVisible(true);
+	}
+});
 
 // 마커와 인포 윈도우 찍기
 function putOnLocation(locPosition, myPoint, on) {
