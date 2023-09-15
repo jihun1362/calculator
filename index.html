@@ -20,7 +20,7 @@
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 <style>
 #listWithHandle {
-	min-width: 410px;
+	min-width: 420px;
 	max-width: 500px;
 	height: auto;
 	padding-left: 10px;
@@ -62,7 +62,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 </head>
 <body>
-	<div id="map" style="width: 100%; height: 350px;"></div>
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	<div style="display: flex;">
+		<div id="map" style="width: 100%; height: 350px;"></div>
+		<!-- List with handle -->
+		<div>
+			<button style="height: 25px; margin-top: 60px; margin-left: 110px;"
+				onclick="listSortSave()">현재 정렬 상태로 저장</button>
+			<div id="listWithHandle" class="list-group"></div>
+		</div>
+	</div>
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
 	<button class="btn-Size" onclick="resizeMap()">지도 크기 바꾸기</button>
 	<br>
@@ -78,11 +90,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 	<br>
 	<button class="btn-Size" onclick="hideInfowindows()">인포윈도우 닫기</button>
 	<br>
-	<div>테스트 내비</div>
+	<!-- <div>테스트 내비</div>
 	<a id="start-navigation" href="javascript:kakaoNavi()"> <img
 		src="https://developers.kakao.com/assets/img/about/buttons/navi/kakaonavi_btn_medium.png"
 		alt="길 안내하기 버튼" />
-	</a>
+	</a> -->
 
 
 
@@ -90,8 +102,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-	<div>
-		<!-- List with handle -->
+	<!-- <div>
+		List with handle
 		<div style="display: flex;">
 			<h1>List with handle</h1>
 			<button style="height: 25px; margin-top: 60px; margin-left: 110px;"
@@ -99,15 +111,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
 		</div>
 		<hr>
 		<div id="listWithHandle" class="list-group"></div>
-	</div>
+	</div> -->
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 </body>
 
 <!-- body 밑에 있어야 맵이 작동! -->
@@ -409,7 +421,7 @@ function markerReset(myPoint) {
 		// 맵에 찍힌 마커들이 있으면 삭제 없으면 통과
 		if(markers.length >= 1){
 			markers.forEach((currentElement, index, array) => {
-				currentElement.setMap(null);
+				currentElement.marker.setMap(null);
 	    	});
 		}
 		// 마커 배열을 빈 배열로 만들기
@@ -456,11 +468,17 @@ function markerSave(locPosition, message, myPoint) {
 		// 마커를 생성
 	   	var marker = new kakao.maps.Marker({
 	   		position: locPosition,
-	   		clickable: true
+	   		clickable: true,
+	   		title: message
 	   	});
+
+		const markerObject = {
+				'id' : message,
+				'marker' : marker
+		};
 		// 마커 저장  
-	   	markers.push(marker);
-		
+	   	markers.push(markerObject);
+	   	
 	    // 내비 연동!
 	    var naviMessage = '';
 	    naviMessage += '<div style="width:150px;text-align:center;padding:6px 0;">';
@@ -475,24 +493,133 @@ function markerSave(locPosition, message, myPoint) {
 	   	var infowindow = new kakao.maps.InfoWindow({
 	   		content: naviMessage
 	   	});
+	 	
+	   	const infowindowObject = {
+				'id' : message,
+				'infowindow' : infowindow
+		};
+	   	
 	   	// 인포윈도우 저장
-	   	infowindows.push(infowindow);
-	}
-	
-	// 마커에 클릭이벤트를 등록합니다
-	kakao.maps.event.addListener(marker, 'click', function() {
-		// 모든 인포윈도우 닫기(인포윈도우 한개만 오픈되게하기 위해)
-		hideInfowindows(); 
+	   	infowindows.push(infowindowObject);
+	   	
 		
-	    // 마커 위에 인포윈도우를 표시합니다
-	    infowindow.open(map, marker);  
-	});
+	   	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	   	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+	   		// 마커에 마우스오버 이벤트를 등록합니다
+	   	   	kakao.maps.event.addListener(marker, 'mouseover', function() {
+	   	   		// 모든 인포윈도우 닫기(인포윈도우 한개만 오픈되게하기 위해)
+	   			hideInfowindows();
+	   	   		// 마커 오버 이벤트 상세
+	   			markerEvent(marker, "over");
+	   	   	});
+	   	   	
+	   	 	// 마커에 마우스아웃 이벤트를 등록합니다
+	   	   	kakao.maps.event.addListener(marker, 'mouseout', function() {
+	   	  		// 마커 오버 이벤트 상세
+	   	   		markerEvent(marker, "out");
+	   	   	});
+	   		
+	   		// 마커에 클릭이벤트를 등록합니다
+	   		kakao.maps.event.addListener(marker, 'click', function() {
+	   			// 모든 인포윈도우 닫기(인포윈도우 한개만 오픈되게하기 위해)
+	   			hideInfowindows();
+	   			
+	   			// 마커에 마우스 오버 시 인포윈도우를 마커 위에 표시
+	   	   	    infowindow.open(map, marker);
+	   			
+	   			// 모든 마커에서 클릭마커 제외하고 전부 일반 마커로 변환
+	   			for(let currentMarker of markers){   				
+	   				if(marker.Gb !== currentMarker.id){
+	   					// 마커 오버 이벤트 상세
+	   					markerEvent(currentMarker.marker, "click")
+	   				} else {
+	   					// 마커 오버 이벤트 상세
+	   		   	   		markerEvent(marker, "over");
+	   				}
+	   			}
+	   			
+	   		
+	   			
+	   			// 리스트 이벤트 상세
+	   			listEvent.allBorderRemove();
+	   			listEvent.borderList(marker.getTitle());
+	   		});   		
+	}
 }
 
-// 맵 클릭하면 모든 인포윈도우 닫기
+// 마커 마우스 오버 이벤트 중복 제거
+function markerEvent(marker, overState) {	
+		// 마커에 마우스 오버 시 해당 마커의 리스트도 식별하기 쉽게 보더 상태 변경
+	   	let selectMarker = document.querySelector('#'+marker.getTitle());
+	 	//console.log(marker.getTitle());
+	 
+  	    if(!selectMarker.classList.contains('border4px')||overState === "click"||overState ==="map_click"){
+  	    	// 마커 오버인지 아웃인지 구분에 따른 스타일 값 부여 삭제
+  	    	if(overState === "over"){
+  	    		selectMarker.style['border'] = '4px solid black';
+  	    	} else {
+  	  			selectMarker.style.removeProperty('border');  	    		
+  	    	}
+	   		
+  	    	// 마커 오버인지 아웃인지 구분에 따른 이미지 설정
+  	    	var markerImage;
+  	    	if(overState === "over"){
+  	    		markerImage = 'https://localimg.daum-img.net/localimages/07/2009/map/icon/blog_icon01_on.png';
+			} else {	  					
+				markerImage = 'http://t1.daumcdn.net/mapjsapi/images/marker.png';
+			}
+  	    	
+	   		//마우스 오버 해제시 이미지 돌아가기
+	  		var icon = new kakao.maps.MarkerImage(
+  				markerImage,
+   	   			new kakao.maps.Size(29, 42),
+   			    {
+   			        offset: new kakao.maps.Point(14, 39),
+   			        alt: "마커 이미지",
+   			        //shape: "poly",
+   			        coords: "14,39,9,27,4,21,1,16,1,10,4,4,11,0,18,0,25,4,28,10,28,16,25,21,20,27"
+   			    }
+   			);
+	   		marker.setImage(icon);
+  	    }
+}
+
+// 리스트 이벤트 객체
+const listEvent = {
+		// 다른 리스트의 보더 속성, 클래스 모두 제거 
+		allBorderRemove(){
+			let allList = document.querySelectorAll('.list-group-item');
+			for(let individualList of allList){
+				individualList.style.removeProperty('border');
+				individualList.classList.remove('border4px');
+			}
+		},
+		// 보더 유지 및 보더 유지된다는 클래스 추가
+		borderList(id){
+			let selectList = document.querySelector('#'+id);
+			selectList.classList.add('border4px');
+			selectList.style['border'] = '4px solid black';
+		}
+}
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+
+// 맵 클릭 이벤트
 kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+	// 맵 클릭하면 모든 인포윈도우 닫기
 	hideInfowindows(); 
+
+	//맵 클릭시 모든 이벤트 초기화
+	for(let currentMarker of markers){
+		markerEvent(currentMarker.marker, "map_click")
+	}
+	listEvent.allBorderRemove();
 });
+
+
 
 // 마커와 인포 윈도우 찍기
 function putOnLocation(locPosition, myPoint, on) {
@@ -510,8 +637,8 @@ function putOnLocation(locPosition, myPoint, on) {
 	} else {
 		// 마커와 인포 윈도우 찍기
 		for (var i = 0; i < markers.length; i++) {
-			markers[i].setMap(map);
-			//infowindows[i].open(map, markers[i]);
+			markers[i].marker.setMap(map);
+			//infowindows[i].infowindow.open(map, markers[i].marker);
 		}
 		
 		// 지도 중심좌표를 접속위치로 변경합니다
@@ -531,7 +658,7 @@ function setBounds() {
 // 모든 인포윈도우 닫기
 function hideInfowindows() {
 	infowindows.forEach((currentElement, index, array) => {
-		currentElement.close();
+		currentElement.infowindow.close();
 	}); 
 	// 내 위치 인포윈도우
 	my_infowindows.forEach((currentElement, index, array) => {
@@ -543,7 +670,7 @@ function hideInfowindows() {
 function showInfowindows() { 
 	// 인포윈도우 열기
 	for (var i = 0; i < markers.length; i++) {
-		infowindows[i].open(map, markers[i]);
+		infowindows[i].infowindow.open(map, markers[i].marker);
 	}
 	// 내 위치 인포윈도우 열기
 	for (var i = 0; i < my_markers.length; i++) {
@@ -579,7 +706,6 @@ function markerNavi(coordinateX, coordinateY) {
 setInterval(() => myLocation(), 10000);
 
 
-
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
@@ -598,63 +724,107 @@ function temp_list(response) {
         
         temp_html = '';
         
-        temp_html += '<div class="list-group-item">';
+        temp_html += '<div class="list-group-item" id='+name+'>';
         temp_html += '<div>번호 : '+name+',</div>';
         //temp_html += '<br>';
         temp_html += '<div>주소 : '+address+'</div>';
         temp_html += '</div>';
 
         $('#listWithHandle').append(temp_html)
+        
+        
+        
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+        const listDiv = document.getElementById(name);    
+        // 오버 이벤트
+        listDiv.addEventListener('mouseover', (event) => {  	
+   			// id값과 일치 하는 마커 찾기
+        	for(let currentMarker of markers){   				
+   				if(name === currentMarker.id){
+   		   	   		// 마커 오버 이벤트 상세
+   		   			markerEvent(currentMarker.marker, "over");
+   				}
+   			}
+        });
+     	// 오버 아웃 이벤트
+        listDiv.addEventListener('mouseout', (event) => {
+        	// id값과 일치 하는 마커 찾기
+        	for(let currentMarker of markers){   				
+   				if(name === currentMarker.id){
+   		   	   		// 마커 오버 이벤트 상세
+   		   			markerEvent(currentMarker.marker, "out");
+   				}
+   			}
+        });
+    	 // 클릭 이벤트
+ 		listDiv.addEventListener('click', (event) => {
+ 			// id값과 일치 하는 마커 찾기
+ 			for(let currentMarker of markers){   				
+   				if(name === currentMarker.id){
+   					// 모든 인포윈도우 닫기(인포윈도우 한개만 오픈되게하기 위해)
+   		   			hideInfowindows();
+   		   			
+   					// 모든 인포윈도우 중에서 클릭한 id의 인포윈도우를 찾고 같은 id의 마커에 표시
+   		   			for(let loopInfowindow of infowindows){
+		   				if(currentMarker.id === loopInfowindow.id){
+		   					// 마커에 마우스 오버 시 인포윈도우를 마커 위에 표시
+		   					loopInfowindow.infowindow.open(map, currentMarker.marker);
+		   				}
+		   			}
+ 
+   		   			// 리스트 이벤트 상세
+   		   			listEvent.allBorderRemove();
+   		   			listEvent.borderList(currentMarker.id);
+
+   		   			map.setCenter(currentMarker.marker.getPosition());
+   		   			
+   				} else {
+   					// 모든 마커에서 클릭한 마커를 제외하고 전부 일반 마커로 변환
+   					// 마커 오버 이벤트 상세
+	   				markerEvent(currentMarker.marker, "click")
+   				}
+   			}
+        });
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
     }
 }
 
+// 정렬 시킨 리스트 상태 그대로 저장
 function listSortSave() {
-	const $ = (select) => document.querySelectorAll(select);
     const sortDrivers = document.querySelectorAll('.list-group-item');
-    
-    console.log(sortDrivers);
     
     let numbers = [];
     let addresses = [];
     
+    // 가져온 클래스들에서 위치가 교체된 디브의 id값과 주소값 뽑기
 	for(let driver of sortDrivers){
-		//console.log(driver.innerText);
-		//console.log(driver.innerText.split(','));
-		//console.log(driver.innerText.split(',')[0]);
-		//console.log(driver.innerText.split(',')[0].trim());
-		//console.log(driver.innerText.split(',')[0].trim().split(':'));
-		//console.log(driver.innerText.split(',')[0].trim().split(':')[0].trim()); //번호
-		//console.log(driver.innerText.split(',')[0].trim().split(':')[1].trim()); //번호값
-		//console.log(driver.innerText.split(',')[1]);
-		//console.log(driver.innerText.split(',')[1].trim());
-		//console.log(driver.innerText.split(',')[1].trim().split(':'));
-		//console.log(driver.innerText.split(',')[1].trim().split(':')[0].trim()); //주소
-		//console.log(driver.innerText.split(',')[1].trim().split(':')[1].trim()); //주소값
-		
+		//console.log(driver);
 		numbers.push(driver.innerText.split(',')[0].trim().split(':')[1].trim());
 		addresses.push(driver.innerText.split(',')[1].trim().split(':')[1].trim());
 	}
 	
 	//console.log(numbers);
 	//console.log(addresses);
-	console.log(currentData);
+	//console.log(currentData);
 	
 	if(numbers.length == Object.keys(currentData).length){
 		for (var i = 0; i < numbers.length; i++) {
 			//console.log(currentData[i].name)
 			//console.log(currentData[i].address)
-			
+			// 뽑은 값들을 바뀐 순서로 덮어쓰기
 			currentData[i].name = numbers[i];
 			currentData[i].address = addresses[i];
 		}
 	}
 	
-	//console.log(currentData);
-	//console.log(inform);
-	
 	alert("저장 완료");
 }
+
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
 </script>
 </html>
