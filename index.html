@@ -52,22 +52,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
-
-
-
-
 </head>
 <body>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
 	<div style="display: flex;">
 		<div id="map" style="width: 100%; height: 350px;"></div>
 		<!-- List with handle -->
-		<div>
+		<!-- <div>
 			<button style="height: 25px; margin-top: 60px; margin-left: 110px;"
 				onclick="listSortSave()">현재 정렬 상태로 저장</button>
 			<div id="listWithHandle" class="list-group"></div>
-		</div>
+		</div> -->
 	</div>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
@@ -98,8 +95,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-	<!-- <div>
-		List with handle
+	<div>
 		<div style="display: flex;">
 			<h1>List with handle</h1>
 			<button style="height: 25px; margin-top: 60px; margin-left: 110px;"
@@ -107,7 +103,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 		</div>
 		<hr>
 		<div id="listWithHandle" class="list-group"></div>
-	</div> -->
+	</div>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@드래그 앤 드랍 리스트 추가@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
@@ -130,14 +126,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 </script>
 
 <script>
-window.onload=function(){
+/* window.onload=function(){
 	resizeMap();
-	appendMarker(inform.driver4);
-	
-}
-
-
-
+	appendMarker(inform.driver4);	
+} */
 
 // 정보
 const inform = {
@@ -304,8 +296,8 @@ function appendMarker(driver) {
 	
 	//좌표 변환 및 마커 생성
 	driver.forEach((currentElement, index, array) => {
-	    console.log(index);
-	    console.log(currentElement);
+	    //console.log(index);
+	    //console.log(currentElement);
 	    
 	    var promise = new Promise(function(resolve, reject) {
 			// 주소로 좌표를 검색
@@ -341,7 +333,7 @@ function appendMarker(driver) {
 		(test) => {
     		centerMarker(driver, centerX, centerY);
 			console.log("PromiseTest:"+test)
-			setBounds();
+			//setBounds();
 		}
 	);
 	
@@ -388,7 +380,7 @@ function myLocation(on) {
 	        var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다     
 	     	// 인포윈도우 메세지
 		    var message = '여기에 계신가요?!';
-		    console.log('내 위치 좌표:'+locPosition);
+		    //console.log('내 위치 좌표:'+locPosition);
 	        
 		 	// 마커와 인포 윈도우 생성 및 저장
 		    markerSave(locPosition, message, myPoint);
@@ -496,7 +488,8 @@ function markerSave(locPosition, message, myPoint) {
 	    
 	 	// 마커의 인포윈도우 생성
 	   	var infowindow = new kakao.maps.InfoWindow({
-	   		content: naviMessage
+	   		content: naviMessage,
+	   		removable : true
 	   	});
 	 	
 	   	const infowindowObject = {
@@ -508,13 +501,11 @@ function markerSave(locPosition, message, myPoint) {
 	   	infowindows.push(infowindowObject);
 	   	
 		
-	   	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-	   	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
 	   		// 마커에 마우스오버 이벤트를 등록합니다
 	   	   	kakao.maps.event.addListener(marker, 'mouseover', function() {
-	   	   		// 모든 인포윈도우 닫기(인포윈도우 한개만 오픈되게하기 위해)
-	   			hideInfowindows();
 	   	   		// 마커 오버 이벤트 상세
 	   			markerEvent(marker, "over");
 	   	   	});
@@ -537,14 +528,12 @@ function markerSave(locPosition, message, myPoint) {
 	   			for(let currentMarker of markers){   				
 	   				if(marker.Gb !== currentMarker.id){
 	   					// 마커 오버 이벤트 상세
-	   					markerEvent(currentMarker.marker, "click")
+	   					markerEvent(currentMarker.marker, "nonClick")
 	   				} else {
 	   					// 마커 오버 이벤트 상세
-	   		   	   		markerEvent(marker, "over");
+	   		   	   		markerEvent(marker, "click");
 	   				}
 	   			}
-	   			
-	   		
 	   			
 	   			// 리스트 이벤트 상세
 	   			listEvent.allBorderRemove();
@@ -559,7 +548,8 @@ function markerEvent(marker, overState) {
 	   	let selectMarker = document.querySelector('#'+marker.getTitle());
 	 	//console.log(marker.getTitle());
 	 
-  	    if(!selectMarker.classList.contains('border4px')||overState === "click"||overState ==="map_click"){
+  	    if(!selectMarker.classList.contains('border4px')||overState === "nonClick"||overState === "click"||overState ==="map_click"){
+  	    	console.log(marker.getTitle());
   	    	// 마커 오버인지 아웃인지 구분에 따른 스타일 값 부여 삭제
   	    	if(overState === "over"){
   	    		selectMarker.style['border'] = '4px solid black';
@@ -569,21 +559,27 @@ function markerEvent(marker, overState) {
 	   		
   	    	// 마커 오버인지 아웃인지 구분에 따른 이미지 설정
   	    	var markerImage;
+  	    	var markerSize = new kakao.maps.Size(29, 42);
+  	    	var markerPoint = new kakao.maps.Point(14, 39);
   	    	if(overState === "over"){
-  	    		markerImage = 'https://localimg.daum-img.net/localimages/07/2009/map/icon/blog_icon01_on.png';
+  	    		markerImage = 'http://t1.daumcdn.net/mapjsapi/images/marker.png';
+  	    		markerSize = new kakao.maps.Size(33, 50);
+  	    		markerPoint = new kakao.maps.Point(16, 47);
+			} else if (overState === "click") {
+  	    		markerImage = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
+  	    		//markerSize = new kakao.maps.Size(29, 42);
 			} else {	  					
 				markerImage = 'http://t1.daumcdn.net/mapjsapi/images/marker.png';
-			}
+				//markerSize = new kakao.maps.Size(29, 42);
+  	    	}
   	    	
 	   		//마우스 오버 해제시 이미지 돌아가기
 	  		var icon = new kakao.maps.MarkerImage(
   				markerImage,
-   	   			new kakao.maps.Size(29, 42),
+  				markerSize,
    			    {
-   			        offset: new kakao.maps.Point(14, 39),
-   			        alt: "마커 이미지",
-   			        //shape: "poly",
-   			        coords: "14,39,9,27,4,21,1,16,1,10,4,4,11,0,18,0,25,4,28,10,28,16,25,21,20,27"
+   			        offset: markerPoint,
+   			        alt: "마커 이미지"
    			    }
    			);
 	   		marker.setImage(icon);
@@ -611,7 +607,6 @@ const listEvent = {
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@리스트 작업 중@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
-
 // 맵 클릭 이벤트
 kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
 	// 맵 클릭하면 모든 인포윈도우 닫기
@@ -631,6 +626,7 @@ kakao.maps.event.addListener(map, 'bounds_changed', function() {
 		markers[i].marker.setVisible(true);
 	}
 });
+
 
 // 마커와 인포 윈도우 찍기
 function putOnLocation(locPosition, myPoint, on) {
@@ -787,16 +783,18 @@ function temp_list(response) {
    		   			// 리스트 이벤트 상세
    		   			listEvent.allBorderRemove();
    		   			listEvent.borderList(currentMarker.id);
-					
-					//순간이동
+
+   		   			markerEvent(currentMarker.marker, "click");
+   		   			//순간이동
    		   			//map.setCenter(currentMarker.marker.getPosition());
    		   			//부드럽게 이동
    		   			map.panTo(currentMarker.marker.getPosition());
    		   			
+   		   			
    				} else {
    					// 모든 마커에서 클릭한 마커를 제외하고 전부 일반 마커로 변환
    					// 마커 오버 이벤트 상세
-	   				markerEvent(currentMarker.marker, "click")
+	   				markerEvent(currentMarker.marker, "nonClick")
    				}
    			}
         });
