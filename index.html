@@ -549,9 +549,9 @@ function markerEvent(marker, overState) {
 	 	//console.log(marker.getTitle());
 	 
   	    if(!selectMarker.classList.contains('border4px')||overState === "nonClick"||overState === "click"||overState ==="map_click"){
-  	    	console.log(marker.getTitle());
+  	    	//console.log(marker.getTitle());
   	    	// 마커 오버인지 아웃인지 구분에 따른 스타일 값 부여 삭제
-  	    	if(overState === "over"){
+  	    	if(overState === "over"||overState === "click"){
   	    		selectMarker.style['border'] = '4px solid black';
   	    	} else {
   	  			selectMarker.style.removeProperty('border');  	    		
@@ -567,10 +567,8 @@ function markerEvent(marker, overState) {
   	    		markerPoint = new kakao.maps.Point(16, 47);
 			} else if (overState === "click") {
   	    		markerImage = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
-  	    		//markerSize = new kakao.maps.Size(29, 42);
 			} else {	  					
 				markerImage = 'http://t1.daumcdn.net/mapjsapi/images/marker.png';
-				//markerSize = new kakao.maps.Size(29, 42);
   	    	}
   	    	
 	   		//마우스 오버 해제시 이미지 돌아가기
