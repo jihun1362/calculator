@@ -407,9 +407,9 @@ function markerReset(myPoint, on) {
 		}
 		// 마커 배열을 빈 배열로 만들기
 		my_markers = [];
-		
+		console.log(on);
 		// 인터벌이 아닐때만 인포윈도우 닫히기
-		if(on !== "interval"){
+		if(on === "on"){
 			// 맵에 찍힌 인포윈도우들이 있으면 삭제 없으면 통과
 			if(my_infowindows.length >= 1){
 				hideInfowindows();
