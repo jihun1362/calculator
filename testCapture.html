@@ -95,6 +95,8 @@
   audioOutputSelect.disabled = !('sinkId' in HTMLMediaElement.prototype);
   
   function gotDevices(deviceInfos) {
+    console.log(gotDevices);
+      
     // Handles being called several times to update labels. Preserve values.
     const values = selectors.map(select => select.value);
     selectors.forEach(select => {
@@ -155,6 +157,7 @@
   }
   
   function gotStream(stream) {
+      console.log(gotStream);
     window.stream = stream; // make stream available to console
     videoElement.srcObject = stream;
     // Refresh button list in case labels have become available
@@ -176,8 +179,8 @@
     const constraints = {
       audio: false,
     //audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
-      video: true
-    //video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+      //video: true
+    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
     };
     navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
   }
