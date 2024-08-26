@@ -180,9 +180,8 @@
     const videoSource = videoSelect.value;
     const constraints = {
         //audio: {deviceId: audioSource ? {exact: audioSource} : undefined}
-        width : 640,
-        height : 480,
-        facingmode : "user"
+        audio: false,
+        facingmode : { facingMode: "user", }
         //facingmode : "user" or "environment" 카메라가 여러개인 경우 선택(스마트폰 전면/후면)
     };
       console.log(audioSource);
