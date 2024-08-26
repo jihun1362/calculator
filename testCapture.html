@@ -186,6 +186,7 @@
     };  
     if(startValue == 'start'){
         constraints = {
+            audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
             video: { facingMode: "environment", }//facingmode : "user" or "environment" 카메라가 여러개인 경우 선택(스마트폰 전면/후면)
         };
     }
