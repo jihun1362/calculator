@@ -158,7 +158,7 @@
   
   function gotStream(stream) {
       console.log(gotStream);
-    //window.stream = stream; // make stream available to console
+    window.stream = stream; // make stream available to console
     videoElement.srcObject = stream;
     // Refresh button list in case labels have become available
     return navigator.mediaDevices.enumerateDevices();
@@ -177,10 +177,8 @@
     const audioSource = audioInputSelect.value;
     const videoSource = videoSelect.value;
     const constraints = {
-      audio: false,
-    //audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
-      //video: true
-    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+        audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
+        video: {deviceId: videoSource ? {exact: videoSource} : undefined}
     };
     navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
   }
