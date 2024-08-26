@@ -177,6 +177,9 @@
         track.stop();
       });
     }
+    if(startValue == null){
+        startValue = false;
+    }
     const audioSource = audioInputSelect.value;
     const videoSource = videoSelect.value;
     var constraints = {
