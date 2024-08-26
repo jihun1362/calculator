@@ -183,7 +183,9 @@
         audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
         video: {deviceId: videoSource ? {exact: videoSource} : undefined}
     };
-      console.log('constraints:'+constraints);
+      console.log(audioSource);
+      console.log(videoSource);
+      console.log(constraints);
     navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
   }
   
