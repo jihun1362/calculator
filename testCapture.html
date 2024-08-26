@@ -171,7 +171,7 @@
     console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
   }
   
-  function start() {
+  function start(videoValue) {
     if (window.stream) {
       window.stream.getTracks().forEach(track => {
         track.stop();
@@ -179,10 +179,14 @@
     }
     const audioSource = audioInputSelect.value;
     const videoSource = videoSelect.value;
+    if(videoValue == ''||videoValue == null){
+        videoValue = {deviceId: videoSource ? {exact: videoSource} : undefined};
+    }
+    console.log(videoValue);
     const constraints = {
         //audio: {deviceId: audioSource ? {exact: audioSource} : undefined}
         audio: false,
-        video: { facingMode: "environment", }
+        video: videoValue
         //facingmode : "user" or "environment" 카메라가 여러개인 경우 선택(스마트폰 전면/후면)
     };
       console.log(audioSource);
@@ -196,7 +200,7 @@
   
   videoSelect.onchange = start;
   
-  start();
+  start('{ facingMode: "environment", }');
 </script>
 </body>
 </html>
