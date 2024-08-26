@@ -181,8 +181,7 @@
     const audioSource = audioInputSelect.value;
     const videoSource = videoSelect.value;
     var constraints = {
-        //audio: {deviceId: audioSource ? {exact: audioSource} : undefined}
-        audio: false,
+        audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
         video: {deviceId: videoSource ? {exact: videoSource} : undefined}
     };  
     if(startValue == 'start'){
