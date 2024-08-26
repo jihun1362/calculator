@@ -152,8 +152,8 @@
           console.log(audioSource);
           console.log(videoSource);
         const constraints = {
-          audio: false,
-          video: video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+          audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
+          video: {deviceId: videoSource ? {exact: videoSource} : undefined}
         };
           console.log(constraints);
         return navigator.mediaDevices.getUserMedia(constraints).
