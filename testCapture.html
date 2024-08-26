@@ -179,16 +179,16 @@
     }
     const audioSource = audioInputSelect.value;
     const videoSource = videoSelect.value;
-    if(videoValue == ''||videoValue == null){
-        videoValue = {deviceId: videoSource ? {exact: videoSource} : undefined};
-    }
-    console.log(videoValue);
-    const constraints = {
+    var constraints = {
         //audio: {deviceId: audioSource ? {exact: audioSource} : undefined}
         audio: false,
-        video: videoValue
-        //facingmode : "user" or "environment" 카메라가 여러개인 경우 선택(스마트폰 전면/후면)
-    };
+        video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+    };  
+    if(startValue){
+        constraints = {
+            video: { facingMode: "environment", }//facingmode : "user" or "environment" 카메라가 여러개인 경우 선택(스마트폰 전면/후면)
+        };
+    }
       console.log(audioSource);
       console.log(videoSource);
       console.log(constraints);
@@ -200,7 +200,7 @@
   
   videoSelect.onchange = start;
   
-  start('{ facingMode: "environment", }');
+  start(true);
 </script>
 </body>
 </html>
