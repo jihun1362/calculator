@@ -185,7 +185,7 @@
         audio: false,
         video: {deviceId: videoSource ? {exact: videoSource} : undefined}
     };  
-    if(startValue){
+    if(startValue == 'start'){
         constraints = {
             video: { facingMode: "environment", }//facingmode : "user" or "environment" 카메라가 여러개인 경우 선택(스마트폰 전면/후면)
         };
@@ -199,9 +199,9 @@
   audioInputSelect.onchange = start;
   audioOutputSelect.onchange = changeAudioDestination;
   
-  videoSelect.onchange = start(false);
+  videoSelect.onchange = start;
   
-  start(true);
+  start('start');
 </script>
 </body>
 </html>
