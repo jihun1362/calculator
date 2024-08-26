@@ -180,10 +180,10 @@ https://github.com/samdutton/simpl/blob/gh-pages/getusermedia/sources/js/main.js
             track.stop();
           });
         }
-        const audioSource = audioSelect.value;
-        const videoSource = videoSelect.value;
-        const constraints = {
-          audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
+        var audioSource = audioSelect.value;
+        var videoSource = videoSelect.value;
+        var constraints = {
+          audio: false,
           video: {deviceId: videoSource ? {exact: videoSource} : undefined}
         };
         return navigator.mediaDevices.getUserMedia(constraints).
