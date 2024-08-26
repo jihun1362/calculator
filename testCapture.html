@@ -116,6 +116,7 @@
         option.text = deviceInfo.label || `speaker ${audioOutputSelect.length + 1}`;
         audioOutputSelect.appendChild(option);
       } else if (deviceInfo.kind === 'videoinput') {
+        $('#videoSource').append('<option value="">선택</option>');
         option.text = deviceInfo.label || `camera ${videoSelect.length + 1}`;
         videoSelect.appendChild(option);
       } else {
