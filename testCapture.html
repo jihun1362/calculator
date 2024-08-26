@@ -157,10 +157,11 @@
   }
   
   function gotStream(stream) {
-      console.log(gotStream);
+      console.log('gotStream1:'+gotStream);
     window.stream = stream; // make stream available to console
     videoElement.srcObject = stream;
     // Refresh button list in case labels have become available
+      console.log('gotStream2:'gotStream);
     return navigator.mediaDevices.enumerateDevices();
   }
   
