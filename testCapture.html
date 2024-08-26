@@ -95,7 +95,7 @@
   audioOutputSelect.disabled = !('sinkId' in HTMLMediaElement.prototype);
   
   function gotDevices(deviceInfos) {
-      console.log('gotDevices1:'+gotDevices);
+      console.log('gotDevices1');
       
     // Handles being called several times to update labels. Preserve values.
     const values = selectors.map(select => select.value);
@@ -104,7 +104,6 @@
         select.removeChild(select.firstChild);
       }
     });
-       console.log('deviceInfos:'+deviceInfos);
     for (let i = 0; i !== deviceInfos.length; ++i) {
       const deviceInfo = deviceInfos[i];
       const option = document.createElement('option');
@@ -127,7 +126,7 @@
         select.value = values[selectorIndex];
       }
     });
-       console.log('gotDevices2:'+gotDevices);
+       console.log('gotDevices2');
   }
   
   navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
@@ -159,11 +158,11 @@
   }
   
   function gotStream(stream) {
-      console.log('gotStream1:'+gotStream);
+      console.log('gotStream1');
     window.stream = stream; // make stream available to console
     videoElement.srcObject = stream;
     // Refresh button list in case labels have become available
-      console.log('gotStream2:'+gotStream);
+      console.log('gotStream2');
     return navigator.mediaDevices.enumerateDevices();
   }
   
@@ -186,7 +185,7 @@
       console.log(audioSource);
       console.log(videoSource);
       console.log(constraints);
-    navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices);
+    navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
   }
   
   audioInputSelect.onchange = start;
