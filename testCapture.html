@@ -107,7 +107,7 @@
     for (let i = 0; i !== deviceInfos.length; ++i) {
       const deviceInfo = deviceInfos[i];
       const option = document.createElement('option');
-        console.log(deviceInfo);
+        //console.log(deviceInfo);
       option.value = deviceInfo.deviceId;
       if (deviceInfo.kind === 'audioinput') {
         option.text = deviceInfo.label || `microphone ${audioInputSelect.length + 1}`;
@@ -172,12 +172,12 @@
   }
   
   function start(startValue) {
+    console.log('startValue:'+startValue);
     if (window.stream) {
       window.stream.getTracks().forEach(track => {
         track.stop();
       });
     }
-    console.log('startValue:'+startValue);
     const audioSource = audioInputSelect.value;
     const videoSource = videoSelect.value;
     var constraints = {
@@ -199,7 +199,7 @@
   audioInputSelect.onchange = start;
   audioOutputSelect.onchange = changeAudioDestination;
   
-  videoSelect.onchange = start;
+  videoSelect.onchange = start(false);
   
   start(true);
 </script>
