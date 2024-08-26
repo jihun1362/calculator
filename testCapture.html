@@ -171,15 +171,13 @@
     console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
   }
   
-  function start(videoValue) {
+  function start(startValue) {
     if (window.stream) {
       window.stream.getTracks().forEach(track => {
         track.stop();
       });
     }
-    if(startValue == null){
-        startValue = false;
-    }
+    console.log('startValue:'+startValue);
     const audioSource = audioInputSelect.value;
     const videoSource = videoSelect.value;
     var constraints = {
