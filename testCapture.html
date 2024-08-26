@@ -107,6 +107,7 @@
     for (let i = 0; i !== deviceInfos.length; ++i) {
       const deviceInfo = deviceInfos[i];
       const option = document.createElement('option');
+        console.log(deviceInfo);
       option.value = deviceInfo.deviceId;
       if (deviceInfo.kind === 'audioinput') {
         option.text = deviceInfo.label || `microphone ${audioInputSelect.length + 1}`;
