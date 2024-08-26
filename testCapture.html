@@ -24,7 +24,7 @@
 
     <link rel="icon" sizes="192x192" href="../../../images/webrtc-icon-192x192.png">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <style>
         div.select {
             display: inline-block;
@@ -173,7 +173,6 @@
   }
   
   function start(startValue) {
-    console.log('startValue:'+startValue);
     if (window.stream) {
       window.stream.getTracks().forEach(track => {
         track.stop();
