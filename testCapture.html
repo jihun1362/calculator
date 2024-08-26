@@ -95,7 +95,7 @@
   audioOutputSelect.disabled = !('sinkId' in HTMLMediaElement.prototype);
   
   function gotDevices(deviceInfos) {
-    console.log(gotDevices);
+      console.log('gotDevices1:'+gotDevices);
       
     // Handles being called several times to update labels. Preserve values.
     const values = selectors.map(select => select.value);
@@ -104,6 +104,7 @@
         select.removeChild(select.firstChild);
       }
     });
+       console.log('deviceInfos:'+deviceInfos);
     for (let i = 0; i !== deviceInfos.length; ++i) {
       const deviceInfo = deviceInfos[i];
       const option = document.createElement('option');
@@ -126,6 +127,7 @@
         select.value = values[selectorIndex];
       }
     });
+       console.log('gotDevices2:'+gotDevices);
   }
   
   navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
