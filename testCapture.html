@@ -152,7 +152,11 @@
           console.log(videoSource);
         const constraints = {
           audio: false,
-          video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+          video: {
+            width: 640,
+            height: 480,
+            facingMode: 'environment'
+          }
         };
           console.log(constraints);
         return navigator.mediaDevices.getUserMedia(constraints).
