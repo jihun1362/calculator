@@ -161,10 +161,13 @@
       
       function gotStream(stream) {
         window.stream = stream; 
+          console.log('stream1:'+stream);
+          
         audioSelect.selectedIndex = [...audioSelect.options].
           findIndex(option => option.text === stream.getAudioTracks()[0].label);
         videoSelect.selectedIndex = [...videoSelect.options].
           findIndex(option => option.text === stream.getVideoTracks()[0].label);
+          console.log('stream2:'+stream);
         videoElement.srcObject = stream;
       }
       
