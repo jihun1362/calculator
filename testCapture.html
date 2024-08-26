@@ -186,7 +186,7 @@
       console.log(audioSource);
       console.log(videoSource);
       console.log(constraints);
-    navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
+    navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices);
   }
   
   audioInputSelect.onchange = start;
