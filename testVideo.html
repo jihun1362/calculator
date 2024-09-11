@@ -179,15 +179,22 @@
       });
     }
     const audioSource = audioInputSelect.value;
-    const videoSource = videoSelect.value;
+    var videoSource = videoSelect.value;
     var constraints = {
         audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
         video: {deviceId: videoSource ? {exact: videoSource} : undefined}
     };  
     if(startValue == 'start'){
+        videoDevices = devices.filter(device => device.kind === 'videoinput');
+                const backCameras = videoDevices.filter(device => 
+                    device.label.toLowerCase().includes('back') || 
+                    device.label.toLowerCase().includes('rear')
+                );
+        videoSource = backCameras[0].deviceId;
         constraints = {
             audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
-            video: { facingMode: "environment", }//facingmode : "user" or "environment" 카메라가 여러개인 경우 선택(스마트폰 전면/후면)
+            //video: { facingMode: "environment", }//facingmode : "user" or "environment" 카메라가 여러개인 경우 선택(스마트폰 전면/후면)
+            video: { deviceId: { exact: videoSource } }
         };
     }
       console.log(audioSource);
