@@ -185,6 +185,7 @@
         video: {deviceId: videoSource ? {exact: videoSource} : undefined}
     };  
     if(startValue == 'start'){
+        const devices = await navigator.mediaDevices.enumerateDevices()
         videoDevices = devices.filter(device => device.kind === 'videoinput');
                 const backCameras = videoDevices.filter(device => 
                     device.label.toLowerCase().includes('back') || 
